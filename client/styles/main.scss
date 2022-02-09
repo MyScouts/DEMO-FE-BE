@@ -1,0 +1,10 @@
+@charset 'UTF-8';
+@import './reset.scss';
+//Base style
+@import "./base/global";
+
+@import "./layout/header";
+
+// Page-specific styles
+@import './pages/home';
+@import './pages/personal';

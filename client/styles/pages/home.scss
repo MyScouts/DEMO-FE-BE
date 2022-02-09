@@ -1,0 +1,54 @@
+
+.home-body{
+  display: flex;
+  background-color:#F6F6F6;
+  padding:20px;
+  justify-content: space-between;
+  .slidebar{
+    width: 15%;
+    .nav-link{
+      width: 100%;
+      padding-top: 10px;
+      margin-bottom: 15px;
+      &-item{
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        color: #000000;
+        &-icon{
+          width: 50px;
+          margin-left: 10px;
+        }
+        &-title{
+          display: flex;
+          font-size: 22px;
+          justify-content: center;
+          flex-direction: column;
+          width: calc(100% - 120px)
+        }
+      }
+
+      .selected{
+        color: #4274F3;
+
+      }
+    }
+  }
+  .content{
+    width: 60%;
+    .transition{
+      display: flex;
+      justify-content: space-between;
+    }
+    .creation{
+      padding: 10px 0px 10px 0px;
+    }
+    .main{
+      padding: 5px 0px 5px 0px;
+    }
+  }
+  .rank-contract{
+    width: 20%;
+  }
+}

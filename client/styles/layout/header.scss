@@ -1,0 +1,75 @@
+.header{
+  height: 44px;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 50px;
+  .logo{
+    width: 200px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .search{
+    position: relative;
+    .search-input{
+      background: #FFFFFF;
+      border: 1px solid #9A8585;
+      box-sizing: border-box;
+      border-radius: 17px;
+      width: 334px;
+      height: 35px;
+      display: flex;
+      justify-content: center;
+      padding: 0px 40px;
+    }
+    .search-icon{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 25px;
+      cursor: pointer;
+    }
+  }
+  .language{
+    display: flex;
+    align-items: center;
+    width: 100px;
+    .language-icon{
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+  }
+  .sign{
+    display: flex;
+    .sign-up{
+      background: #FFFFFF;
+      border: 2px solid #2962F5;
+      box-sizing: border-box;
+      box-shadow: 0px 4px 4px rgba(41, 98, 245, 0.25);
+      border-radius: 14px;
+      width: 115px;
+      height: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .sign-in{
+      width: 115px;
+      height: 34px;
+      background: #2962F5;
+      border: 2px solid #7AADF9;
+      box-sizing: border-box;
+      box-shadow: 0px 4px 4px rgba(41, 98, 245, 0.25);
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  }
+}
