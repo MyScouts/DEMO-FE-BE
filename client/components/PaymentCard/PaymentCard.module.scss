@@ -1,0 +1,71 @@
+.visa {
+    background-image: linear-gradient(to right, #acb6e5, #86fde8) !important;
+}
+
+.masterCard {
+    background-color: #DA5260 !important;
+
+}
+
+.paymentCardPage {
+    cursor: pointer;
+    width: 500px;
+    height: 250px;
+    padding: 0rem .5rem 1rem .5rem;
+    // margin: 1rem;
+    border-radius: .5rem;
+    box-shadow: 0 0 .2rem #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .paymentHeader {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        div {
+            position: relative;
+            height: 30px;
+            width: 100%;
+
+            &:first-child {
+                text-align: left;
+            }
+
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+
+    .paymentBody {
+        p {
+            font-size: 2.5rem;
+            font-weight: bolder;
+            margin-left: 1rem;
+            letter-spacing: .1rem;
+        }
+    }
+
+    .paymentFooter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem 0 1rem;
+
+        div {
+            &:first-child {
+                color: white;
+            }
+
+            &:last-child {
+                background-color: rgba(240, 255, 255, 0.664);
+                border-radius: 1rem;
+                padding: .5rem 1rem .5rem 1rem;
+                font-size: .8rem;
+                font-weight: bold;
+            }
+        }
+    }
+}

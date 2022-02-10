@@ -1,0 +1,18 @@
+.paymentInfo {
+    width: 100%;
+
+    .infoHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .addButton {
+            cursor: pointer;
+        }
+    }
+
+    .paymentCards {
+        display: flex;
+        justify-content: center;
+    }
+}

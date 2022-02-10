@@ -1,13 +1,39 @@
 import PaymentInfo from '../../components/paymens/Payments/PaymentInfo'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PointInfo from '../../components/paymens/Points/PointInfo'
 import styles from './payment.module.scss'
+import { getPaymentService, getUserInfoService, IPaymentInfo, IUserInfo } from '../../reponsitory/UserService'
 
 const PaymentIndex = () => {
+    const [paymentInfos, setPaymentInfos] = useState<IPaymentInfo[] | null>(null)
+    const [userInfo, setUserInfo] = useState<IUserInfo | null>()
+
+    const getPaymentInfos = async () => {
+        const paymentInfos = await getPaymentService() as IPaymentInfo[]
+        setPaymentInfos(paymentInfos)
+    }
+
+    const getUserInfo = async () => {
+        const user = await getUserInfoService()
+        if (user !== null) {
+            setUserInfo(user)
+        }
+    }
+
+    useEffect(() => {
+        getUserInfo()
+        getPaymentInfos()
+    }, [])
+
     return (
         <div className={`${styles.paymentIndex}`}>
-            <PaymentInfo />
-            <PointInfo />
+            <div className={`${styles.paymentInfo}`}>
+                <PaymentInfo paymentsInfos={paymentInfos} />
+            </div>
+
+            <div className={`${styles.pointInfo}`}>
+                <PointInfo paymentsInfos={paymentInfos} userInfo={userInfo} />
+            </div>
         </div>
     )
 }

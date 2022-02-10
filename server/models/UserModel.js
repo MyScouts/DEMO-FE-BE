@@ -35,11 +35,19 @@ let userSchema = new Schema({
         type: String,
         default: "",
     },
-    lastLogin:{
+    lastLogin: {
         type: Date,
         default: Date.now
     },
-    ipLogin:{
+    pointTotal: {
+        type: Number,
+        default: 0
+    },
+    coinTotal: {
+        type: Number,
+        default: 0
+    },
+    ipLogin: {
         type: String,
         default: ""
     },
