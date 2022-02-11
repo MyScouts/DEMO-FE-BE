@@ -21,7 +21,7 @@ let register = async (req, res, next) => {
 
     if (email) {
         let foundUser = await UserModel.findOne({ email })
-        if (foundUser) return res.status(301).json({
+        if (foundUser) return res.status(200).json({
             message: "Email is exists!",
             success: false,
             status: 301
@@ -30,7 +30,7 @@ let register = async (req, res, next) => {
 
     if (phoneNumber) {
         let foundUser = await UserModel.findOne({ phoneNumber })
-        if (foundUser) return res.status(302).json({
+        if (foundUser) return res.status(200).json({
             message: "Phone Number is exists!",
             success: false,
             status: 302

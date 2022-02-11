@@ -1,5 +1,4 @@
 let mongoose = require('mongoose')
-let bcrypt = require('bcryptjs')
 let Schema = mongoose.Schema
 
 let paymentSchema = new Schema({

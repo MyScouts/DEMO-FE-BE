@@ -48,7 +48,7 @@ export const RegisterService = async ({
       birthDay
     });
 
-    if (response.success) {
+    if (response.status === 200) {
       setToken(response.data.successToken);
       setUser({
         // userId: response.data.userId,
@@ -57,9 +57,9 @@ export const RegisterService = async ({
         lastName: response.data.lastName,
       });
     }
-    return true;
+    return response.status;
   } catch (error) {
-    return false;
+    return 500;
   }
 };
 

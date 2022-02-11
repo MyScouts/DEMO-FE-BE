@@ -1,3 +1,5 @@
+const { PAGINATE_CONFIG } = require("../common/config")
+const PaymentHistoryModel = require("../models/PaymentHistory")
 const PaymentModel = require("../models/PaymentModel")
 const UserModel = require("../models/UserModel")
 
@@ -62,7 +64,13 @@ const newPaymentMethod = async (req, res, next) => {
             cardNumber: cardNumber,
             cvv: securityCode
         }).save()
-
+        await new PaymentHistoryModel({
+            userId: userInfo._id,
+            paymentId: payment._id,
+            content: "Tạo mới phương thức thanh toán",
+            point: userInfo.pointTotal,
+            coin: userInfo.coinTotal,
+        }).save()
         return res.status(200).json({
             status: 200,
             success: true,
@@ -74,6 +82,7 @@ const newPaymentMethod = async (req, res, next) => {
 
 const paymentsMethod = async (req, res, next) => {
     const payments = await PaymentModel.find({ userId: req.user._id, logical_delete: null })
+
     return res.status(200).json({
         status: 200,
         success: true,
@@ -114,10 +123,17 @@ const updatePaymentMethod = async (req, res, next) => {
 
 
 const addPointsMethod = async (req, res, next) => {
-    const { point } = req.value.body
+    const { point, methodId } = req.value.body
     const user = await UserModel.findOne({ _id: req.user._id })
     user.pointTotal += point
     await user.save()
+    await new PaymentHistoryModel({
+        userId: user._id,
+        paymentId: methodId,
+        content: "Nạp tiền vào tài khoản",
+        point: user.pointTotal,
+        coin: user.coinTotal,
+    }).save()
     return res.status(200).json({
         status: 200,
         success: true,
@@ -133,6 +149,14 @@ const updateCoinMethod = async (req, res, next) => {
         user.coinTotal += coin
         user.pointTotal -= coin * 100
         await user.save()
+        await new PaymentHistoryModel({
+            userId: user._id,
+            paymentId: null,
+            content: "Chuyển từ point sang coin",
+            point: user.pointTotal,
+            coin: user.coinTotal,
+        }).save()
+
         return res.status(200).json({
             status: 200,
             success: true,
@@ -146,9 +170,50 @@ const updateCoinMethod = async (req, res, next) => {
             data: null
         });
     }
-
-
 }
+
+const paymentHistory = async (req, res, next) => {
+    const queryHistories = PaymentHistoryModel.aggregate([
+        {
+            $match: {
+                userId: req.user._id
+            }
+        },
+        {
+            $lookup: {
+                from: "payments",
+                localField: "paymentId",
+                foreignField: "_id",
+                as: "payment"
+            }
+        },
+        {
+            $project: {
+                content: 1,
+                point: 1,
+                coin: 1,
+                status: 1,
+                createdAt: { $dateToString: { format: "%Y-%m-%d %H:%M:%S", date: "$createdAt" } },
+                payment: {
+                    $arrayElemAt: ["$payment", 0]
+                }
+            }
+        },
+        {
+            $sort: {
+                createdAt: -1
+            }
+        },
+    ])
+    const paymentHistory = await PaymentHistoryModel.aggregatePaginate(queryHistories, PAGINATE_CONFIG(req.query.page, req.query.pageSize));
+    return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "",
+        data: paymentHistory
+    })
+}
+
 module.exports = {
     profile,
     newPaymentMethod,
@@ -156,5 +221,6 @@ module.exports = {
     deletePaymentMethod,
     updatePaymentMethod,
     addPointsMethod,
-    updateCoinMethod
+    updateCoinMethod,
+    paymentHistory
 }

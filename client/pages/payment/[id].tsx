@@ -84,7 +84,7 @@ function EditPayment() {
                         <div style={{ cursor: "pointer" }} onClick={() => deletePayment()}><Delete color='error' /></div>
                     </div>
                     <div>
-                        <input type="radio" value={'visa'} id="visaMethod"  {...register('method')} checked={true} />
+                        <input type="radio" value={'visa'} id="visaMethod"  {...register('method')} />
                         <label htmlFor="visaMethod">Visa</label>
                     </div>
                     <div>

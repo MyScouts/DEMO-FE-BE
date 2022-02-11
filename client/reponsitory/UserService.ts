@@ -34,6 +34,25 @@ export interface IPaymentInfo {
   updatedAt: string;
 }
 
+
+export interface IPaymentHistory {
+  _id: string;
+  content: string;
+  point: string;
+  coin: string;
+  status: string;
+  createdAt: string;
+  payment: IPaymentInfo;
+}
+
+export interface IPaymentHistoryResponse {
+  itemCount: number;
+  perPage: number;
+  currentPage: number;
+  pageCount: number;
+  items: IPaymentHistory[];
+
+}
 export const getUserInfoService = async () => {
   try {
     const response = await RequestHelper.get(BASE_URL + "user/profile", {});
@@ -144,5 +163,19 @@ export const updateCoinService = async ({ coin }: any) => {
     return false;
   } catch (error) {
     return false;
+  }
+}
+
+
+export const userPaymentHistoryService = async (page = 1, pageSize = 5) => {
+  try {
+    const response = await RequestHelper.get(BASE_URL + `user/payment-history?page=${page}&pageSize=${pageSize}`, {});
+
+    if (response.success) {
+      return response.data as IPaymentHistoryResponse;
+    }
+    return null;
+  } catch (error) {
+    return null;
   }
 }

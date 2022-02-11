@@ -15,7 +15,7 @@ import * as yup from "yup";
 import { useRouter } from 'next/router';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { loginService, RegisterService } from "../../reponsitory/AuthService";
-import { alterSuccess } from "../../reponsitory/AltertService";
+import { alterFail, alterSuccess } from "../../reponsitory/AltertService";
 
 type FormValues = {
     email: string;
@@ -49,9 +49,17 @@ export default function SignupComponent({ }) {
 
     const onSubmit = handleSubmit(async (data: any) => {
         const result = await RegisterService(data)
-        if (result) {
+        if (result === 200) {
             alterSuccess("Đăng ký thành công")
-            router.push("/home")
+            // router.push("/home")
+            return
+        } else if (result === 301) {
+            alterFail("| Email đã tồn tại")
+            return
+        }
+        else if (result === 302) {
+            alterFail("Số điện thoại đã được đăng ký")
+            return
         };
     });
 

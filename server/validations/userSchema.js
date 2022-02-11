@@ -15,7 +15,7 @@ const userSchemas = {
         point: Joi.number().required(),
         methodId: Joi.string().required(),
     }),
-    
+
     changeCoin: Joi.object().keys({
         coin: Joi.number().required(),
     }),

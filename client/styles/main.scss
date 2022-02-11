@@ -39,3 +39,32 @@
         color: red;
     }
 }
+
+.payment-histories-table {
+    width: 100%;
+
+    th,
+    td {
+        border: 1px solid rgb(151, 151, 151);
+        padding: .5rem .2rem .5rem .2rem;
+    }
+
+    th {
+        background-color: rgb(245, 245, 245);
+        font-size: .8rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .history-created {
+        text-align: center;
+        font-weight: bolder;
+    }
+
+    tr {
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(245, 245, 245);
+        }
+    }
+}

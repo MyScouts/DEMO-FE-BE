@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { RegisterService } from "../../reponsitory/AuthService";
 import { useRouter } from "next/router";
 import styles from './register.module.scss'
+import { alterFail, alterSuccess } from "../../reponsitory/AltertService";
 
 const ValidationOutlineInput = styled(OutlinedInput)({
     '& input:valid ~ fieldset': {
@@ -75,7 +76,17 @@ const Register = () => {
             phoneNumber: infoUser.phone
         })
 
-        if (result) router.push("/home");
+        if (result === 200) {
+            alterSuccess("Đăng ký thành công")
+            router.push("/home")
+            return
+        } else if (result === 302) {
+            alterFail("Số điện thoại đã được đăng ký")
+            return
+        } else {
+            alterFail("Đăng ký thất bại")
+            return
+        };
 
     }
     return (

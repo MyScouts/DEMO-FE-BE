@@ -1,12 +1,14 @@
 import PaymentCard from '../../../components/PaymentCard/PaymentCard'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './PaymentInfo.module.scss'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { Avatar, Box, Button } from "@mui/material";
 import AddCircle from '@mui/icons-material/AddCircle';
 import { useRouter } from 'next/router';
-import { IPaymentInfo } from '../../../reponsitory/UserService';
+import { IPaymentHistory, IPaymentInfo, userPaymentHistoryService } from '../../../reponsitory/UserService';
+import PaymentHistory from '../../../components/PaymentHistory/PaymentHistory';
+
 // 
 
 interface IPaymentInfoProps {
@@ -56,6 +58,7 @@ const PaymentInfo = (props: IPaymentInfoProps) => {
       <div className='information'>
         <h2>Recent Payment</h2>
         <div className={`${styles.paymentCards}`}>
+          <PaymentHistory />
         </div>
       </div>
     </div>

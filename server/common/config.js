@@ -1,8 +1,26 @@
-const CONFIG = {
-    PORT: 5000,
-    MONGO_URL: 'mongodb://localhost:27017/blogs?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false',
-    PASSPORT_SERECT: '123456789'
+
+const PORT = 5000
+const PASSPORT_SERECT = '123456789'
+
+const myCustomLabels = {
+    totalDocs: 'itemCount',
+    docs: 'items',
+    limit: 'perPage',
+    page: 'currentPage',
+    nextPage: 'next',
+    prevPage: 'prev',
+    totalPages: 'pageCount',
+
+};
+
+const PAGINATE_CONFIG = (page, pageSize) => {
+console.log("🚀 ~ file: config.js ~ line 17 ~ page, pageSize", page, pageSize)
+    return { page: parseInt(page), limit: parseInt(pageSize), customLabels: myCustomLabels }
 }
 
 
-module.exports = CONFIG;
+module.exports = {
+    PAGINATE_CONFIG,
+    PORT,
+    PASSPORT_SERECT
+};

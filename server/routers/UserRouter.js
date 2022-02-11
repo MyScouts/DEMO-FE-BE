@@ -25,7 +25,9 @@ router.route('/payments/:paymentId')
 router.route('/point')
     .post(passport.authenticate('jwt', { session: false }), validatorBody(userSchemas.addPoint), userController.addPointsMethod)
 
-    router.route('/coin')
+router.route('/coin')
     .post(passport.authenticate('jwt', { session: false }), validatorBody(userSchemas.changeCoin), userController.updateCoinMethod)
-    
+
+router.route('/payment-history')
+    .get(passport.authenticate('jwt', { session: false }), userController.paymentHistory)
 module.exports = router

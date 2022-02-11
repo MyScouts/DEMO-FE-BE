@@ -22,7 +22,6 @@ let userSchema = new Schema({
     },
     phoneNumber: {
         type: String,
-        unique: true,
         maxlength: 10,
         minlength: 10,
         default: "",
