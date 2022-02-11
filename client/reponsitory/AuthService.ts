@@ -30,11 +30,11 @@ export const RegisterService = async ({
   email,
   password,
   phoneNumber,
+  sex,
+  address1,
+  address2,
+  birthDay
 }: any) => {
-  console.log(
-    "🚀 ~ file: AuthService.ts ~ line 39 ~",
-    BASE_URL + "auth/register"
-  );
   try {
     const response = await RequestHelper.post(BASE_URL + "auth/register", {
       firstName,
@@ -42,6 +42,10 @@ export const RegisterService = async ({
       email,
       password,
       phoneNumber,
+      sex,
+      address1,
+      address2,
+      birthDay
     });
 
     if (response.success) {
@@ -58,3 +62,27 @@ export const RegisterService = async ({
     return false;
   }
 };
+
+
+export const loginService = async ({ email, password }: any) => {
+  try {
+    const response = await RequestHelper.post(BASE_URL + "auth/login", {
+      email,
+      password
+    });
+
+    if (response.success) {
+      setToken(response.data.successToken);
+      setUser({
+        // userId: response.data.userId,
+        email: response.data.email,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+      });
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return false;
+  }
+}

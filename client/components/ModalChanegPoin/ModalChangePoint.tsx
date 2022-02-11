@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import * as yup from "yup";
+import { alterFail, alterSuccess } from '../../reponsitory/AltertService';
 
 interface IProps {
     open: boolean
@@ -65,10 +66,13 @@ const ModalChangePoint = (props: IProps) => {
     const onSubmit = handleSubmit(async (data: any) => {
         const result = await addPointService({ point: data.quantity, methodId: data.method })
         if (result) {
+            alterSuccess("Thêm điểm thành công")
             setValue('quantity', 0)
             props.handleClose()
             router.reload()
+            return;
         }
+        alterFail("Thêm điểm thất bại")
     });
 
     return (

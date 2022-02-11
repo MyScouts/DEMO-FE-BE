@@ -15,7 +15,7 @@ let encodeedToken = (userID, authen = true) => {
 }
 // 
 let register = async (req, res, next) => {
-    let { firstName, lastName, email, password, phoneNumber } = req.value.body
+    let { firstName, lastName, email, password, phoneNumber, sex, address1, address2, birthDay } = req.value.body
     // check user is exsit
     condicion = []
 
@@ -37,7 +37,7 @@ let register = async (req, res, next) => {
         })
     }
 
-    let newUser = await new UserModel({ firstName, lastName, email, password, phoneNumber })
+    let newUser = await new UserModel({ firstName, lastName, email, password, phoneNumber, sex, address1, address2, birthDay })
     await newUser.save()
 
     let token = encodeedToken(newUser._id)
@@ -52,7 +52,43 @@ let register = async (req, res, next) => {
     })
 }
 
+// 
+let loginMethod = async (req, res) => {
+    let { email, password } = req.value.body
+    let user = await UserModel.findOne({ email: email })
+    if (user) {
+        let checkMatchPassword = await user.comparePassword(password);
+        if (checkMatchPassword) {
+            token = encodeedToken(user._id)
+            return res.status(200).json({
+                status: 200,
+                message: "",
+                success: true,
+                data: {
+                    successToken: token,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                }
+            })
+        } else {
+            return res.status(301).json({
+                status: 301,
+                message: "password not match!",
+                success: false,
+            })
+        }
+    }
+    return res.status(400).json({
+        status: 400,
+        message: "Not found user!",
+        success: false,
+    })
+
+}
+
+
 
 module.exports = {
-    register
+    register,
+    loginMethod
 }

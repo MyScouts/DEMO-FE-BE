@@ -12,9 +12,13 @@ export interface IUserInfo {
   lastLogin: string;
   ipLogin: string;
   phoneNumber: string;
-  address: string;
+  address1: string;
+  address2: string;
   pointTotal: number;
   coinTotal: number;
+  sex: string;
+  birthDay: string;
+
 }
 
 export interface IPaymentInfo {
@@ -117,6 +121,21 @@ export const addPointService = async ({ point, methodId }: any) => {
     const response = await RequestHelper.post(BASE_URL + "user/point", {
       point,
       methodId
+    });
+
+    if (response.success) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export const updateCoinService = async ({ coin }: any) => {
+  try {
+    const response = await RequestHelper.post(BASE_URL + "user/coin", {
+      coin
     });
 
     if (response.success) {

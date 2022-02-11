@@ -4,6 +4,7 @@ import PersonalInfo from "./personal";
 import Home from "./home";
 import Register from "./register";
 
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="app">

@@ -8,7 +8,8 @@ const profile = async (req, res, next) => {
 
         {
             $project: {
-                address: 1,
+                address1: 1,
+                address2: 1,
                 orders: 1,
                 firstName: 1,
                 lastName: 1,
@@ -18,6 +19,8 @@ const profile = async (req, res, next) => {
                 ipLogin: 1,
                 pointTotal: 1,
                 coinTotal: 1,
+                sex: 1,
+                birthDay: 1,
                 createdAt: { $dateToString: { format: "%Y-%m-%d %H:%M:%S", date: "$createdAt" } },
                 lastLogin: { $dateToString: { format: "%Y-%m-%d %H:%M:%S", date: "$lastLogin" } },
             }
@@ -125,14 +128,26 @@ const addPointsMethod = async (req, res, next) => {
 const updateCoinMethod = async (req, res, next) => {
     const { coin } = req.value.body
     const user = await UserModel.findOne({ _id: req.user._id })
-    user.coinTotal += coin
-    user.pointTotal -= coin * 100
-    await user.save()
-    return res.status(200).json({
-        status: 200,
-        success: true,
-        message: "",
-    });
+
+    if (user.pointTotal >= coin * 100) {
+        user.coinTotal += coin
+        user.pointTotal -= coin * 100
+        await user.save()
+        return res.status(200).json({
+            status: 200,
+            success: true,
+            message: "",
+        });
+    } else {
+        return res.status(200).json({
+            status: 200,
+            success: false,
+            message: "Not enough points",
+            data: null
+        });
+    }
+
+
 }
 module.exports = {
     profile,

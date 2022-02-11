@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { newPaymentService } from '../../../reponsitory/UserService';
 import { useRouter } from 'next/router';
 import ArrowBack from '@mui/icons-material/ArrowBack';
+import { alterFail, alterSuccess } from '../../../reponsitory/AltertService';
 
 type FormValues = {
   method: string
@@ -35,8 +36,11 @@ const CreateIndex = () => {
 
     if (result) {
       router.push('/payment');
+      alterSuccess("Tạo mới thành công")
       return;
     }
+
+    alterFail("Tạo mới thất bại, vui lòng kiểm tra lại thông tin")
   });
 
 

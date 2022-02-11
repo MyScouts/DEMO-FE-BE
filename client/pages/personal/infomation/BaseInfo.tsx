@@ -12,6 +12,8 @@ const BaseInfoComponent = (props: IProps) => {
   const idUser = props.userInfo?._id;
   const lastLogin = props.userInfo?.lastLogin;
   const ipUser = props.userInfo?.ipLogin;
+
+  
   return (
     <>
       <Box

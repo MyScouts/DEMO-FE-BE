@@ -3,11 +3,12 @@ import Modal from '@mui/material/Modal';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { IPaymentInfo } from '../../reponsitory/UserService';
+import { IPaymentInfo, updateCoinService } from '../../reponsitory/UserService';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import * as yup from "yup";
+import ArrowForward from '@mui/icons-material/ArrowForward';
 
 interface IProps {
     open: boolean
@@ -43,7 +44,11 @@ const ModalChaneCoin = (props: IProps) => {
     const [usedPoint, setUsedPoint] = useState(0)
     const onSubmit = handleSubmit(async (data: any) => {
         if (props.totalPoint - usedPoint >= 0) {
-
+            const result = await updateCoinService({ coin: data.quantity });
+            if (result) {
+                props.handleClose();
+                router.reload();
+            }
         } else {
             alert('Số điểm không đủ')
         }
@@ -56,7 +61,7 @@ const ModalChaneCoin = (props: IProps) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description">
             <Box sx={container}>
-                <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", textTransform: "uppercase" }}>Add Money</h1>
+                <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", textTransform: "uppercase" }}>Change Point <ArrowForward />  Coin</h1>
 
                 <form style={{ marginTop: "20px" }} onSubmit={onSubmit}>
                     <h1

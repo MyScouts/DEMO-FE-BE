@@ -27,9 +27,19 @@ let userSchema = new Schema({
         minlength: 10,
         default: "",
     },
-    address: {
+    address1: {
         type: String,
-
+    },
+    address2: {
+        type: String,
+    },
+    sex: {
+        type: String,
+        default: "other"
+    },
+    birthDay: {
+        type: String,
+        default: null
     },
     avatar: {
         type: String,

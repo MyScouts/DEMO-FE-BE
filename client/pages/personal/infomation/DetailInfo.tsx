@@ -52,7 +52,7 @@ const DetaiHeroComponent = (props: IProps) => {
               fontSize: '20px',
               fontWeight: '300',
               width: 'calc(100% - 200px)'
-            }}> 26/02/1999 </p>
+            }}> {props.userInfo?.birthDay} </p>
 
           </Box>
           <Box sx={{
@@ -103,7 +103,7 @@ const DetaiHeroComponent = (props: IProps) => {
               fontSize: '20px',
               fontWeight: '300',
               width: 'calc(100% - 200px)'
-            }}> {props.userInfo?.address}</p>
+            }}> {props.userInfo?.address1} - {props.userInfo?.address2}</p>
 
           </Box>
 

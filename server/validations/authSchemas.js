@@ -7,7 +7,11 @@ let authSchemas = {
         lastName: Joi.string().min(2).required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required(),
-        phoneNumber: Joi.string().min(10).max(10).regex(/[{0,1}[0-9]{9}]*$/)
+        phoneNumber: Joi.string().min(10).max(10).regex(/[{0,1}[0-9]{9}]*$/),
+        sex: Joi.string().required(),
+        address1: Joi.string().required(),
+        address2: Joi.string().required(),
+        birthDay: Joi.string().required(),
     }),
 
     signIn: Joi.object().keys({
