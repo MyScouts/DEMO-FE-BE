@@ -1,5 +1,6 @@
 let mongoose = require('mongoose')
 let bcrypt = require('bcryptjs')
+
 let Schema = mongoose.Schema
 
 let userSchema = new Schema({
@@ -76,36 +77,36 @@ let userSchema = new Schema({
 })
 
 // custom server
-userSchema.pre('save', async function (next) {
-    try {
-        let salt = await bcrypt.genSalt(10)
-        let passwordHased = await bcrypt.hash(this.password, salt)
-        this.password = passwordHased
-        next()
-    } catch (error) {
-        next(error)
-    }
-})
+// userSchema.pre('save', async function (next) {
+//     try {
+//         let salt = await bcrypt.genSalt(10)
+//         let passwordHased = await bcrypt.hash(this.password, salt)
+//         this.password = passwordHased
+//         next()
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 
 // custom server
-userSchema.pre('findOneAndUpdate', async function (next) {
-    let update = { ...this.getUpdate() };
-    try {
-        if (update.password) {
-            let salt = await bcrypt.genSalt(10)
-            update.password = await bcrypt.hash(this.getUpdate().password, salt)
-            this.setUpdate(update);
-        }
-        next()
-    } catch (error) {
-        next(error)
-    }
-})
+// userSchema.pre('findOneAndUpdate', async function (next) {
+//     let update = { ...this.getUpdate() };
+//     try {
+//         if (update.password) {
+//             let salt = await bcrypt.genSalt(10)
+//             update.password = await bcrypt.hash(this.getUpdate().password, salt)
+//             this.setUpdate(update);
+//         }
+//         next()
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 
 
-userSchema.pre('find', async function (docs) {
-    this.populate('favorites')
-});
+// userSchema.pre('find', async function (docs) {
+//     this.populate('favorites')
+// });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
     try {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import PointInfo from '../../components/paymens/Points/PointInfo'
 import styles from './payment.module.scss'
 import { getPaymentService, getUserInfoService, IPaymentInfo, IUserInfo } from '../../reponsitory/UserService'
+import withAuth from '../../components/withAuth/withAuth'
 
 const PaymentIndex = () => {
     const [paymentInfos, setPaymentInfos] = useState<IPaymentInfo[] | null>(null)
@@ -38,4 +39,4 @@ const PaymentIndex = () => {
     )
 }
 
-export default PaymentIndex
+export default withAuth(PaymentIndex)

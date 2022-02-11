@@ -28,6 +28,12 @@ router.route('/point')
 router.route('/coin')
     .post(passport.authenticate('jwt', { session: false }), validatorBody(userSchemas.changeCoin), userController.updateCoinMethod)
 
+router.route('/coin-to-point')
+    .post(passport.authenticate('jwt', { session: false }), validatorBody(userSchemas.changeCoin), userController.changeCoinToPointMethod)
+
 router.route('/payment-history')
     .get(passport.authenticate('jwt', { session: false }), userController.paymentHistory)
+
+router.route('/withdraw')
+    .post(passport.authenticate('jwt', { session: false }), validatorBody(userSchemas.addPoint), userController.withdrawMethod)
 module.exports = router

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { IPaymentHistory, userPaymentHistoryService } from '../../reponsitory/UserService'
-import Circle from '@mui/icons-material/Circle';
+import Check from '@mui/icons-material/Check';
+import Error from '@mui/icons-material/Error';
 import ReactPaginate from 'react-paginate';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { cc_format } from '../../utils/StringUtils';
 
 const PaymentHistory = () => {
     const [paymentHistories, setPaymentHistories] = useState<IPaymentHistory[] | null>()
@@ -18,9 +21,9 @@ const PaymentHistory = () => {
         getPaymentHistory();
     }, [])
 
-    const handlePageClick = (selectedItem: { selected: number }) => {
-        console.log("🚀 ~ file: PaymentHistory.tsx ~ line 22 ~ handlePageClick ~ page", selectedItem)
-
+    const handlePageClick = async (selectedItem: { selected: number }) => {
+        const paymentHistory = await userPaymentHistoryService(selectedItem.selected + 1)
+        setPaymentHistories(paymentHistory?.items)
     }
 
     return (
@@ -41,11 +44,15 @@ const PaymentHistory = () => {
                                 return (
                                     <tr key={index}>
                                         <td className='history-created'>{paymentHistory.createdAt}</td>
-                                        <td style={{ textAlign: "center" }}>{paymentHistory.payment?.cardNumber} {paymentHistory.payment?.paymentMethod}</td>
+                                        <td style={{ textAlign: "center" }}>{cc_format(paymentHistory.payment?.cardNumber ?? "")} {paymentHistory.payment?.paymentMethod}</td>
                                         <td>{paymentHistory.content}</td>
                                         <td style={{ textAlign: "center" }}>{paymentHistory.point}</td>
                                         <td style={{ textAlign: "center" }}>{paymentHistory.coin}</td>
-                                        <td style={{ textAlign: "center" }}> <Circle color={paymentHistory.status === 'success' ? 'success' : 'error'} /> </td>
+                                        <td style={{ textAlign: "center" }}>
+                                            {paymentHistory.status === 'success'
+                                                ? <Check color={'success'} />
+                                                : <Error color={'error'} />}
+                                        </td>
                                     </tr>
                                 )
                             })
@@ -56,21 +63,23 @@ const PaymentHistory = () => {
                 </tbody>
             </table>
 
-            <div>
-                    {
-                        pageInfo && pageInfo.pageSize > 1 &&
-                        <ReactPaginate
-                            breakLabel="..."
-                            // nextLabel="next >"
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={5}
-                            pageCount={pageInfo.pageSize}
-                            // previousLabel="< previous"
-                            // renderOnZeroPageCount={null}
-                            marginPagesDisplayed={2}
-                        />
-                    }
-                </div>
+            <div className='payments-pagination'>
+                {
+                    pageInfo && pageInfo.pageSize > 1 &&
+                    <ReactPaginate
+                        breakLabel="..."
+                        // nextLabel="next >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageInfo.pageSize}
+                        // previousLabel="< previous"
+                        // renderOnZeroPageCount={null}
+                        marginPagesDisplayed={2}
+                        previousLabel={<>&laquo;</>}
+                        nextLabel={<>&raquo;</>}
+                    />
+                }
+            </div>
         </div>
     )
 }

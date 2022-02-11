@@ -179,3 +179,32 @@ export const userPaymentHistoryService = async (page = 1, pageSize = 5) => {
     return null;
   }
 }
+
+
+export const changeCoinToPointService = async ({ coin }: any) => {
+  try {
+    const response = await RequestHelper.post(BASE_URL + "user/coin-to-point", {
+      coin
+    });
+    if (response.success) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export const withdrawCoinService = async ({ point, methodId }: any) => {
+  try {
+    const response = await RequestHelper.post(BASE_URL + "user/withdraw", {
+      point, methodId
+    });
+    if (response.success) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return false;
+  }
+}

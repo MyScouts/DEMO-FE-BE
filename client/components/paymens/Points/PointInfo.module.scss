@@ -81,6 +81,10 @@
                 background: linear-gradient(to right, #f857a6, #ff5858);
             }
 
+            &:nth-child(4) {
+                background: linear-gradient(to right, #2193b0, #6dd5ed);
+            }
+
             &:hover {
                 border: 1px solid rgb(182, 182, 182);
                 background: transparent;

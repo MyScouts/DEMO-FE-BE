@@ -63,8 +63,54 @@
 
     tr {
         cursor: pointer;
+
         &:hover {
             background-color: rgb(245, 245, 245);
+        }
+    }
+}
+
+.payments-pagination {
+    display: flex;
+    justify-content: center;
+
+    ul {
+        display: flex;
+        gap: .5rem;
+
+        li {
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border: 1px solid #464E2E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #464E2E;
+            font-weight: bold;
+
+            &:first-child,
+            &:last-child {
+                border: none;
+
+
+                &:hover {
+                    background-color: white;
+                    color: #464E2E;
+                }
+            }
+
+        }
+
+        li:hover {
+            background-color: #464E2E;
+            color: white;
+        }
+
+        .selected {
+            background-color: #464E2E;
+            color: white;
         }
     }
 }

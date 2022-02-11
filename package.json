@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/crystalthanh/DEMO-FE#readme",
   "dependencies": {
+    "moment-timezone": "^0.5.34",
     "nodemon": "^2.0.15"
   },
   "devDependencies": {

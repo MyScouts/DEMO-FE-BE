@@ -2,7 +2,6 @@ const { PAGINATE_CONFIG } = require("../common/config")
 const PaymentHistoryModel = require("../models/PaymentHistory")
 const PaymentModel = require("../models/PaymentModel")
 const UserModel = require("../models/UserModel")
-
 // 
 const profile = async (req, res, next) => {
 
@@ -214,6 +213,66 @@ const paymentHistory = async (req, res, next) => {
     })
 }
 
+
+const changeCoinToPointMethod = async (req, res, next) => {
+    const { coin } = req.value.body
+    const user = await UserModel.findOne({ _id: req.user._id })
+    user.coinTotal -= coin
+    user.pointTotal += coin * 100
+    await user.save()
+
+    await new PaymentHistoryModel({
+        userId: user._id,
+        paymentId: null,
+        content: "Chuyển từ coin sang point",
+        point: user.pointTotal,
+        coin: user.coinTotal,
+    }).save()
+
+    return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "",
+    });
+}
+
+const withdrawMethod = async (req, res, next) => {
+    const { point, methodId } = req.value.body
+    const user = await UserModel.findOne({ _id: req.user._id })
+    if (user.pointTotal >= point) {
+        user.pointTotal -= point
+        await user.save()
+        await new PaymentHistoryModel({
+            userId: user._id,
+            paymentId: methodId,
+            content: "Rút tiền từ tài khoản, số tiền rút: " + point,
+            point: user.pointTotal,
+            coin: user.coinTotal,
+        }).save()
+        return res.status(200).json({
+            status: 200,
+            success: true,
+            message: "",
+        });
+    }
+
+    await new PaymentHistoryModel({
+        userId: user._id,
+        paymentId: methodId,
+        content: "Rút tiền từ tài khoản không thành công, không đủ tiền",
+        point: user.pointTotal,
+        coin: user.coinTotal,
+        status: "failed"
+    }).save()
+
+    return res.status(200).json({
+        status: 200,
+        success: false,
+        message: "Not enough points",
+        data: null
+    });
+}
+
 module.exports = {
     profile,
     newPaymentMethod,
@@ -222,5 +281,7 @@ module.exports = {
     updatePaymentMethod,
     addPointsMethod,
     updateCoinMethod,
-    paymentHistory
+    paymentHistory,
+    changeCoinToPointMethod,
+    withdrawMethod
 }

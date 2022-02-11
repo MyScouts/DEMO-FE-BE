@@ -2,6 +2,7 @@ const UserModel = require("../models/UserModel")
 const { addDateWithNow } = require("../utils/DataTime")
 let JWT = require('jsonwebtoken')
 const { PASSPORT_SERECT } = require("../common/config")
+let bcrypt = require('bcryptjs')
 
 
 
@@ -36,7 +37,8 @@ let register = async (req, res, next) => {
             status: 302
         })
     }
-
+    let salt = await bcrypt.genSalt(10)
+    password = await bcrypt.hash(password, salt)
     let newUser = await new UserModel({ firstName, lastName, email, password, phoneNumber, sex, address1, address2, birthDay })
     await newUser.save()
 
